@@ -1,0 +1,87 @@
+---
+title: "Homework 1"
+author: "Your Name Here"
+subtitle: "Winter 2025"
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+output: pdf_document
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+knitr::opts_chunk$set(echo = TRUE)
+options(pillar.sigfig=6)
+library(tidyverse)
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday January 22 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps.}
+
+- Don't forget to (i) make a local copy of this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+
+* * *
+
+### Exercises
+
+1. (Two researchers) In a sample of 1000 independent observations - $X_1,X_2,\dots,X_{1000}$ -  generated from a distribution with mean $\mu_0$ and known standard deviation 1, a
+researcher (call them researcher 1) testing $H_0:\mu_0=0$ against $H_1:\mu_0 > 0$ rejects the null hypothesis at level 0.01 (highly significant).  
+
+a. Find the rejection region for test conducted by researcher 1.  In other words, what is the minimum value of $\bar{x}_{obs}$ for which they will reject $H_0$? (Show your work; do any calculations in R showing your code/output)
+
+b. Another researcher (call them researcher 2) using a sample of 100 independent observations - $Y_1,Y_2,\dots, Y_{100}$ - generated from a distribution with mean $\nu_0$ and known standard deviation 1  tests $H_0:\nu_0=0$ against $H_1: \nu_0 > 0$ and rejects the null hypothesis at level 0.05 (significant). Find the rejection region for test conducted by researcher 2.  In other words, what is the minimum value of $\bar{y}_{obs}$ for which they will reject $H_0$? (Show your work)
+
+
+c. Which of $\mu_0$ or $\nu_0$ do you think is (likely) larger? Why? 
+
+
+2. (Rate of passage) The	number	of electrons	produced	by	the	passage	of	an	alpha	particle through a	container	of a	given	medium	is	known	to	have	a	Poisson	 distribution with (unknown) rate $\lambda_0$.	Let $X_1, X_2, \dots,X_{100}$ denote the electron production of one hundred randomly selected particles passing	through	the	container at various times. 
+Suppose we observe $\bar{x} = 9.4$. 
+
+    We are interested in testing the following hypotheses at level $\alpha = 0.005$
+$$H_0: \lambda_0 = 8.6 \ \ \ H_1: \lambda_0 > 8.6$$
+
+
+a. Find the P-value based on the exact distribution of the test statistic 
+$$S = X_1 + X_2 + \dots + X_{100}.$$ What do you conclude? (Be sure to do all calculations using R within this document and show any code/output)
+
+b. Repeat part a using the large sample distribution of the test statistic $$\bar{X} = \frac{1}{100} \left(X_1 + X_2 + \dots + X_{100}\right).$$ What do you conclude? (Be sure to do all calculations using R within this document and show any code/output)
+
+
+3. (Mean of means) Using a random sample of 25 observations - $X_1,X_2,\dots,X_{25}$ -  from a  population with (unknown) mean $\mu_1$ and (known) standard deviation $\sigma_1$, a 95\% large sample confidence interval for $\mu_1$ was $[1.37, 1.53]$. 
+
+   Similarly using an independent sample of 36 observations - $Y_1, Y_2, \dots, Y_{36}$ - from a population with (unknown) mean $\mu_2$ and (known) standard deviation $\sigma_2$, a 95\% large sample confidence interval for $\mu_2$ was $[1.17, 1.29]$.
+
+   Derive a large sample  95% confidence interval for  
+   $$\mu = \frac{\mu_1 + \mu_2}{2}$$
+   and calculate it for this example.
+   
+   Hint: see problem 1 on HW 6 from STAT 341 for a similar type of problem involving $\mu_1 - \mu_2$. Follow those steps but for the parameter $\frac{\mu_1 + \mu_2}{2}$.
+
+
+4. (Eliana makes noise) Eliana has developed a method for constructing a confidence interval for a parameter $\theta_0$ in a certain model, and is doing simulations to see how well it covers the true value of the parameter across many samples. She generates $B = 1,000$ samples, each of size $n$, from the model with $\theta_0=\frac{1}{2}$, and for each sample she calculates the interval using a confidence level of 95%, and then notes whether the confidence interval contains the true value $\frac{1}{2}$ in it. You can see her results in the file `eliana_results.csv`.
+
+a. Write code to calculate the coverage rate of her confidence interval method based on the 1,000 simulations. Then print your answer. (You will need to read in the CSV file)
+
+    ```{r problem 4a, message= F, warning = F}
+    #read in data and then print out simulated coverage rate
+
+    ```
+
+b. Since her simulated coverage rate isn't exactly 95%, Eliana is wondering if her results indicate that the \emph{confidence level} of her method differs from 0.95.  
+
+    Suppose the random variable $X_i$ denotes whether the $ith$ confidence interval she generates covers the true value ($X_i = 1$) or not ($X_i=0$). Then she can assume $X_1,X_2,\dots, X_{1000} \overset{i.i.d.}{\sim} Bernoulli(\pi_0)$ where $\pi_0$ is the confidence level of Eliana's method. She is interested in testing $H_0: \pi_0 = 0.95$ versus $H_1: \pi_0 \neq 0.95$. Find the P-value based on the large sample z test of $\bar{X}$ - the simulated coverage rate.  (Be sure to do all calculations using R within this document and show any code/output)
+
+c. How high or low must the simulated coverage rate be for Eliana to suspect that the true coverage rate of her intervals is not 95%? Explain. (Assume we are using the threshold of significance $\alpha = 0.05$. )
+   
+d. If Eliana had thought ahead, she could have done a calculation for $B$ - number of reps - to ensure that her simulated coverage rate would be within a certain margin of error of the true  $\pi_0$. How large would $B$ have to be in order for her to be 98% confident that the simulated coverage is within 0.005 of the true $\pi_0$.   (You may use $\pi_0 = \frac{1}{2}$ for the standard error in this calculation)
+
+    Hint: the number of reps - $B$ - is like our sample size ($n$). We are trying to choose it so that the resulting confidence interval for $\pi_0$ has a certain width.
