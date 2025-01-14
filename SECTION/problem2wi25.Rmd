@@ -1,0 +1,134 @@
+---
+title: "Problem Section 2"
+subtitle:  "The t-test"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+   - Use simulations to investigate robustness of the t-distribution
+   
+   - Make inference using the t-distribution for a single mean with paired data
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+### Exercises 
+
+1. Every t test makes the same explicit assumption - namely, that $$X_1,X_2, \dots, X_n \overset{i.i.d.}{\sim} Norm(\mu_0, \sigma_0).$$
+If the normality assumption is not satisfied, then the ratio 
+$$T = \frac{\bar{X} - \mu_0}{\frac{S}{\sqrt{n}}}$$ will not follow a t-distribution. However, whether or not the validity of the t-test is compromised depends on how different the actual distribution of the statistic $T$ is from the $t$ distribution.
+
+    In this exercise, you will investigate the sensitivity of the $T$ ratio to violations of the normality assumption by simulating samples of size $n$ from selected distributions and comparing the resulting histogram to the $t$ distribution with $n-1$ degrees of freedom.
+
+
+a. The following code simulates $B = 1,000$ samples of size $n = 6$ each from a $Unif(0,1)$ distribution. For each sample, I calculate 
+$$t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}$$ where $\mu_0 = \frac{1}{2}$ is the mean of the uniform distribution.
+
+    The code exemplifies the use of `lapply` for repeatedly performing a task. Study the code and annotate it with comments as asked for.
+
+    ```{r unif-dist}
+
+    #Write a comment explaining the following 2 lines 
+    set.seed(2737)
+    B <- 1000                       
+                         
+    #Write a comment explaining what the function sim_func_unif does.
+    #Be sure to explain what it takes as input, what it calculates, 
+    #and what the function outputs
+    
+    sim_func_unif <- function(i, mu0, n){
+      xi = runif(n = n, min = 0, max = 1)           
+      xbar = mean(xi)
+      s = sd(xi)
+      t = (xbar - mu0)/(s/sqrt(n))  
+      return(t)
+    }
+
+    #Write a comment to explain what is happening in the lines below
+    #Be sure to explain what is stored in sims, what data structure does the unlist    
+    #create and what we are doing to create sims_df
+
+    sims <- lapply(1:B, sim_func_unif, mu0 = 0.5, n = 6)
+
+    sims_df <- data.frame(t = unlist(sims))
+    
+
+    ```
+
+    Fill in the blanks in the code chunk below to create a histogram (on the density scale) of the $t$ ratios in `sim_df` and superimpose the $t$ distribution with $n-1$ degrees of freedom. What do you notice?  (Don't forget to try different binwidths)
+
+    ```{r, eval=FALSE}
+
+    ggplot(data = ___,
+       mapping = aes(x = ___ ) ) +
+      geom_histogram(mapping = aes(y = ___), 
+                 binwidth = ___ ) +
+      stat_function(fun = dt, 
+                args = list(df = ___ ) ) +
+      labs(_)
+    ```
+
+    b. Repeat part a. with $n = 15$. Try and re-purpose the same code by passing the sample size as an argument, just as we did with $\mu_0$.
+
+
+    c. Write code in the code chunk below to repeat parts a. and b. for samples of size $n=6$ and also $n = 15$ drawn from an exponential distribution with rate $\lambda_0 = 2$. Place the plots side by side using the patchwork package. Please don't just copy and paste code, but type it out. (Note: $\mu_0 = 1/2$ for this distribution also) What do you notice?
+
+    ```{r exp-dist}
+    set.seed(88)
+    ```
+
+
+2. Your simulations in Problem 1 should show that the distribution of $$T = \frac{\bar{X} - \mu_0}{\frac{S}{\sqrt{n}}}$$ will become increasingly similar to a $t_{n-1}$ distribution as $n$ increases, regardless of which distribution you sample from. Can you explain why this happens?
+
+
+3.  One measure of a person’s
+blood clotting ability is expressed in prothrombin time,
+which is defined to be the interval between the initiation of
+the thrombin-prothrombin reaction and the formation of
+the clot. One study looked at the effect of aspirin on
+prothrombin time on 12 subjects. Data on prothrombin time (in seconds) before ($x$) and 3 hours after ($y$) taking two aspirin tables (650 mg) are shown below. 
+
+    ```{r}
+    df <- data.frame(
+      subject = 1:12, 
+      x = c(12.3, 12.0, 12.0, 13.0, 13.0, 12.5, 
+            11.3, 11.8, 11.5, 11.0, 11.0, 11.3),
+      y = c(12.0, 12.3, 12.5, 12.0, 13.0, 12.5, 
+            10.3, 11.3, 11.5, 11.5, 11.0, 11.5)
+    )
+
+    ```
+
+    Let $D_i=X_i - Y_i$ denote the difference in prothrombin times (before - after). 
+
+a. Create the variable $di$ and add it to the data frame. Then examine it descriptively using graphs (such as a scatter plot, side-by-side box plots) and also find summary statistics.  
+    
+    ```{r}
+
+    ```
+
+b. Assuming that $D_1,D_2,\dots, D_{12} \overset{i.i.d.}{\sim} Norm(\mu_{d}, \sigma_d)$, test the hypothesis that aspirin lowers prothrombin times. Use $\alpha = 0.01$ to make a conclusion.  (You can use R to run the test, but make sure you understand how the numbers are calculated)
+
+    ```{r}
+
+
+    ```
