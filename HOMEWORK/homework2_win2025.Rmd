@@ -1,0 +1,110 @@
+---
+title: "Homework 2"
+author: "Your Name Here"
+subtitle: "Winter 2025"
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+output: pdf_document
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+knitr::opts_chunk$set(echo = TRUE)
+options(pillar.sigfig = 6)    #for printing tibbles to 6 significant figs
+library(tidyverse)
+library(fastR2)
+
+library(ggridges)            #for density ridge plots in 1e
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday January 29 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps.}
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+* * *
+
+### Exercises
+
+1. (Big pharma) A	drug	company	is producing	a	drug that is	suspected	of	raising	the	patient’s	 blood	pressure	slightly.	They test	100	healthy	volunteers using a paired design. This means they get two blood pressure measurements on each individual, one pre and the other post intervention.
+
+    Let $D_i$ denote the change in blood pressure for a randomly selected volunteer (post - pre). You may assume	the	measurement	$D_1, D_2, \dots, D_{100}$ are	independently drawn from a normal distribution with mean $\mu_d$ and standard deviation $\sigma_d$, both unknown. 
+
+a. Suppose the summary statistics for the data are: $\bar{d} = 0.2$ mm Hg and $s_{d} = 4.1$ mm Hg. Test the hypothesis $H_0: \mu_d = 0$ against	the	alternative	$H_1: \mu_d > 0$. Give the expression for the P-value, then find it using R as a calculator and report it with a conclusion in context.
+
+
+b. Can	the	company	now	claim	that their	research	has	shown	that	the	drug	does	not	increase	the	blood	pressure? Just say yes or no, and give at most two sentences explaining why or why not. 
+
+
+c. Suppose the Food and Drug Administration is	willing	to	allow	an increase in blood pressure so long as it is less than 1 mm Hg.	The null hypothesis now is $H_0: \mu_d = 1$. How should the drug company set up their alternative hypothesis? Explain your reasoning.	
+ 
+    Hint: your alternative hypothesis is either $\mu_d < 1$ or $\mu_d > 1$. Think about which of the two it should be. 
+    
+d. Repeat the P-value calculations from part a for testing the hypotheses in part c. 
+
+
+2. (Chicks) The `chickwts` dataframe in the **fastR2** package presents results from an experiment in which chickens are fed six different diets. Please read the helpfile on this dataset to learn more about the study, the data, and the variables. 
+
+
+a. Make side-by-side box plots to compare the weight distribution across the 6 feeds. Write a couple of sentences describing what you learn. Does any diet seem particularly superior? inferior? (Please be sure to add a title, x axis label with units, and caption attributing the package from which data comes from)
+
+    Hint: This is not a paired design, you do not need to connect points across the boxplots.
+
+b. Assume that the weight measurements for each diet are normally distributed with mean $\mu_{diet}$ and standard deviation $\sigma_{diet}$, both unknown. Create a dataframe called `chickwts_ci` that that has 6 rows, one for each feed and lists the following information: 
+    feed: the name of the feed
+    n: number of chickens assigned to the feed group
+    xbar: average weight gain for chickens in the feed group, 
+    s: standard deviation of weight gain for chickens in the feed group,
+    lower: lower limit of 95\% t confidence interval for the true mean weight gain in the feed group
+    upper: lower limit of 95\% t confidence interval for the true mean weight gain in the feed group 
+ 
+    Be sure to show your code and the output.
+    
+    Hint: if you are using `tidyverse`, check out the functions `group_by`, `summarise` which calculate group-wise summaries with very few lines of code. Also the function `n()` can count the number of rows within each feed group.
+
+c.  Fill in the blanks in the code below to display the confidence intervals you constructed in part b. as horizontal line segments. Be sure to label the `x` axis and give units, give an accurate and complete title (don't just say 95% confidence intervals; say for what parameter). Also, make sure the numbers on the $x$ axis span the range from 125 to 375 in increments of 25, so we have some idea of the magnitudes.
+
+    
+
+    ```{r eval = FALSE}
+    #remove eval = FALSE option after filling in the blanks.
+    
+    ggplot(data = ___)+
+      geom_segment( mapping = aes(x = ___, 
+                                  xend = ___,
+                                  y = feed,
+                                  yend = feed) ) +
+      labs(title = "___",
+               x = "___") +
+      scale_x_continuous(breaks = ___)
+
+    ```
+
+
+d. Read the brief explanation of the study design in the documentation provided with the data frame. State positives and also negatives of the study design.
+
+
+3. (Rat psychology) Does the psychological environment affect the anatomy of the brain? The subjects for one study came from a genetically pure strain of rats. From each litter, one rat was selected at random for the treatment group and one for the control group. Both groups got the same food and drink -- as much as they wanted. But each animal in the treatment group lived with 11 others in a cage, furnished with playthings which were changed daily. Animals in the control group lived in isolation, with no toys. After a month, all animals were sacrificed and their cortex weights  measured in milligrams. The data set is in the file `brain-weights.csv`.
+
+a. Why did the investigators decide to assign one member of each litter to treatment and another member from the same litter to the control group?  What are the advantages?  
+
+    Hint: there are two (separate) benefits of pairing. 
+
+b. Explore these data by making a scatterplot, a boxplot, and calculating some summary statistics. Write briefly about what you are looking for in these plots. Be sure to show your code and output - do not print error/warning messages. Please label your plots and your answer focused and short.
+
+c. The goal is to examine if the treatment increases cortex weight. Two different analytic strategies are described below. Conduct both analyses and summarize the conclusions clearly using each method. In your answer, set up the problem mathematically first, give a brief explanation of the calculation you will be doing and then you can use R as a calculator to do your calculations.
+ 
+      - Method 1: Dichotomize the data for each pair as "1" if treatment cortex is heavier and "0" otherwise. (Ignore ties in the data if any.) Then use a binomial model to test $H_0: \pi_0 = 0.5$ versus $H_1: \pi_0 > 0.5$ where $\pi_0$ is the probability that the treatment cortex is heavier. (This method is called a \textbf{sign test} since we are recording whether the sign of the difference in weights - treatment  minus control - is positive or not. )
+  
+      - Method 2: Express the data for each pair as the difference, $D$ in cortex weights between the treatment and control animal. Then conduct a paired t-test of $H_0: \mu_d = 0$ versus $H_1: \mu_d > 0$ where $\mu_d$ is the expected value of $D$. 
+      
+d. What is an  advantage of the sign test compared with the paired t-test? How about a disadvantage?
+
