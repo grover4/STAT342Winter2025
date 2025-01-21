@@ -17,7 +17,6 @@ options(pillar.sigfig = 6)    #for printing tibbles to 6 significant figs
 library(tidyverse)
 library(fastR2)
 
-library(ggridges)            #for density ridge plots in 1e
 ```
 
 ### Instructions
