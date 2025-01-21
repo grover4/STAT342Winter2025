@@ -1,0 +1,85 @@
+---
+title: "Problem Section 3"
+subtitle:  "The chi square distribution"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+
+   - Identify the chi square distribution 
+   
+   - Calculate the rejection region for a test given the Type 1 error rate
+   
+   - Conduct inference about a population variance in a normal sampling model
+   
+   - Examine assumptions in a practical context
+   
+   - Develop a method for combining results from independent samples
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+### Exercises 
+
+1. Suppose $X_1,X_2,\dots,X_n \overset{i.i.d.}{\sim} Norm(\mu_0, \sigma_0)$ where $\mu_0$ and $\sigma_0$ represent the mean and standard deviation of the normal distribution. What is the distribution of $\frac{n ( \bar{X} - \mu_0)^2}{\sigma_0^2}$?
+
+
+
+2. Two	independent	research teams	are investigating the existence of dark matter by testing the hypotheses
+$$H_0: \mbox{dark matter does not exist}  \ \ \ H_1: \mbox{dark matter exists}.$$
+They	have	used completely	 independent	methods,	and	completely	different	statistical	tests	(although	in	both	cases,	rejecting	the	null	hypothesis	implies	the	discovery	of	dark	matter).	However,	neither	group	has	obtained	a	significant	P-value,	achieving	$P_1 = 0.06$	and	$P_2 = 0.08$,	respectively.	
+
+    They	want	to	combine	their	results	somehow. Here are two facts:
+
+   - When a null hypothesis is true, P-values follow a $Unif(0,1)$ distribution.   
+   
+   - If $U \sim Unif(0,1)$ then $-2 \ln(U) \sim \chi^2_{2}$. 
+
+a. Suppose they use the combined statistic $T = -2 \ln\left(P_1 \cdot P_2 \right)$. What is the null sampling distribution of $T$?
+
+b. Do large values of $T$ support $H_1$ or small values?
+
+c. Use your answers from parts a and b to carry out the test at level $\alpha = 0.05$.
+
+
+3. In testing $H_0:\sigma^2 = \sigma^2_{0,null}$ versus $H_1:
+\sigma^{2} > \sigma^2_{0,null}$ in the normal model, suppose we decide to reject $H_0$ whenever  
+$$\frac{(n-1) S^2}{\sigma^2_{0,null}} \geq k.$$ 
+
+    If $n=13$ and we want the test to have a Type 1 error rate of 0.05. What should we choose for $k$? 
+
+3. A stock analyst claims to have devised a mathematical technique for selecting high-quality mutual funds
+and promises that a client’s portfolio will have higher average ten-year annualized returns and lower volatility; that
+is, a smaller standard deviation. After ten years, one of the
+analyst’s twenty-four-stock portfolio showed an average ten-year annualized return of 11.5% and a standard deviation of 10.17%. The benchmarks for the type of funds
+considered are a mean of 10.10% and a standard deviation
+of 15.67%.
+
+    Suppose $X$ denotes the annualized ten-year return on a single stock in a twenty-four-stock portfolio selected by the analyst. Then we may assume $X_1,X_2,\dots,X_{24} \overset{i.i.d.}{\sim} Norm(\mu_0, \sigma_0)$. You are given $n = 24$, $\bar{x} = 11.5$\% and $s = 10.17$\%. 
+
+a. Conduct a significance test at the $\alpha = 0.05$ level that the portfolio beat the benchmark for the average return. That is test $H_0: \mu_0 = 10.1\%$ versus $H_1: \mu_0 > 10.1\%$. 
+
+
+b. Conduct a significance test at the $\alpha = 0.05$ level that the portfolio beat the benchmark for the volatility. That is test $H_0: \sigma_0 = 15.67\%$ versus $H_1: \sigma_0 < 15.67\%$. 
+
+c. Do you think the modeling assumptions we made are valid in this setting? If not, which ones might be violated?   
+
