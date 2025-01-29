@@ -1,0 +1,90 @@
+---
+title: "Homework 3"
+author: "Your Name Here"
+subtitle: "Spring 2024"
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+output: pdf_document
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday Feb 5 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. 
+
+
+* * *
+
+### Exercises
+
+1.  (Estimating variance) Suppose $X_1, X_2, \dots,X_n \overset{i.i.d.}{\sim} Norm(\mu_0, \sigma_0)$ both parameters unknown. Let $S^2$ denote the sample variance. That is:
+$$S^2=\frac{1}{n-1} \sum\limits_{i=1}^{n} (X_i - \bar{X})^2$$
+and recall that
+$$\frac{(n-1) S^2}{\sigma^2_0} \sim \chi^2_{n-1}$$
+
+a. We showed in class that $S^2$ is unbiased. Find $Var(S^2)$
+
+    Hint: Recall $\frac{(n-1) S^2}{\sigma^2_0} \sim \chi^2_{n-1}$ and we know the variance of a chi square random variable.
+    
+b. Is $S^2$ a consistent estimator of $\sigma_0^2$? Why? First define consistency and then answer the question.
+
+c. An alternate estimator of $\sigma^2_0$ is the method of moments estimator
+$$\hat{\sigma}^2_0 = \frac{1}{n} \sum\limits_{i=1}^{n} (X_i - \bar{X})^2 = \frac{(n-1)}{n} S^2.$$ 
+Find $E\left[ \hat{\sigma}_0^2 \right]$. What do you learn about this estimator from this calculation? 
+
+    Hint:  Since $\hat{\sigma}^2_0 = \frac{(n-1)}{n} S^2$ you can save yourself a lot of grief by using the algebra of expectations.
+   
+d. Find $Var\left[ \hat{\sigma}_0^2 \right]$. (Please use the hint from part c for this part as well)
+
+e. Is $\hat{\sigma}_0^2$ a consistent estimator? Why or why not?
+
+
+2. (Bias-variance tradeoff.) In this part we will compare the Mean Squared Error (M.S.E.) of the estimators $S^2$ and $\hat{\sigma}_0^2$ from problem 1. Recall that for any estimator $\hat{\theta}_0$ of $\theta_0$, we have
+$$MSE(\hat{\theta}_0 ) = Var\left[ \hat{\theta}_0 \right] + Bias(\hat{\theta}_0)^2$$
+where 
+$$Bias(\hat{\theta}_0) = E\left[ \hat{\theta}_0 \right] - \theta_0$$
+
+a. Find $MSE(S^2)$, the mean squared error of $S^2$. Clearly show $Bias(S^2)$ and also $Var(S^2)$ in your answer. 
+
+    
+
+b. Show that $MSE(\hat{\sigma}_0^2) = \frac{\sigma_0^4\:(2n-1)}{n^2}$.
+Clearly show $Bias(\hat{\sigma}_0^2)$ and also $Var(\hat{\sigma}_0^2)$ in your answer. 
+
+
+c. Show that $MSE(\hat{\sigma}_0^2) < MSE(S^2)$ for any $n > 2$. 
+
+d. Based on your calculations, which estimator would you prefer and why?
+
+
+
+3. (Blood pressure) An \emph{Arterisonde machine}  prints blood-pressure readings on a tape so that the measurement can be read rather than heard. A major argument for using such a machine is that the variability of measurements obtained by different observers on the same person will be lower than the variability  with a standard blood-pressure cuff. From previously published work, the variance with a standard blood pressure cuff is $\sigma_0^2=35$.
+
+    Suppose we have data consisting of systolic blood pressure (SBP) measurements obtained on 10 people and read by two observers. We use the difference between the first and second observers to assess inter-observer variability. In particular, if we assume the underlying distribution of these \textbf{differences} is normal with mean $\mu_0$ and variance $\sigma^2_0$, then it is of primary interest to make inference about $\sigma^2_0$.
+
+    The data is in the file `systolic.csv`. Calculate and interpret (in context) a 95% confidence interval for $\sigma_0^2$.   (Even though investigators think the variability of the new method will be lower, we calculate a two sided confidence interval as the observers are less experienced in using it and this might result in an increase in the variability.)
+    
+    Also conduct a significance test of $H_0: \sigma^2_0 = 35$ versus $H_1: \sigma^2_0 \neq 35$ and report your findings.
+
+    Create a brief report (of sorts) where you include visualizations of the data, describe the scientific problem, model/assumptions, calculate the confidence interval, and make a conclusion. Show your code, but please suppress messages and warnings etc.
+    
+    
+
+
+
+    
+   
