@@ -1,0 +1,96 @@
+---
+title: "Problem Section 4"
+subtitle:  "The two sample t-test"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+   - Perform a two sample z-test for comparing means
+   
+   - Perform a two sample t-test for comparing means
+   
+   - Perform a one-sample t-test for paired differences
+   
+   - Analyze which test would be appropriate in a given situation
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+### Exercises 
+
+1. In Theorem 10.1, we saw that the ratio of a standard normal to an independent chi square follows a t-distribution. Another distribution that commonly arises when making inference in a normal model is the $F$ distribution. 
+
+    \begin{shaded}
+    \textbf{Definition} Let $U$ and $V$ be independent chi-square random variables with degrees of freedom $n$ and $m$ respectively. Then the random variable of the form $\frac{U/n}{V/m}$
+is said to follow an F distribution with $n$ numerator and $m$ denominator degrees of freedom. We write
+$$F = \frac{U/n}{V/m} \sim F(n, m).$$
+    \end{shaded}
+
+    Suppose $X_1, X_2, \dots, X_n \overset{i.i.d.}{\sim} Norm(\mu_0, \sigma_0)$. Show that
+$$T^2 = \left( \frac{\sqrt{n} (\bar{X} - \mu_0)}{S} \right)^2 \sim F(1, n-1) $$
+
+    Hint: look at Definition 10.1 from the slide deck and see how you can use it.
+
+
+2. The	number	of	electrons	produced	by	the	passage	of	an	alpha	particle	 through	a	container	of	a	given	medium	is	known	to	have	a	Poisson	distribution.	One	hundred	of	these	particles	are	observed	at	various	times	passing	through	the	container,	the	electron	production	is	measured,	and	the	parameter	$\lambda$	estimated	as	9.4.	Another	group	(independently) repeats	the	experiment	and	
+estimates	$\lambda$	as	8.6.	Is	this	surprising?	Why or why not? Conduct a large sample z test at level $\alpha = 0.05$. Also calculate a 95% confidence interval. Which do you prefer to use and why?
+
+    Hint: look at Example 10.1; instead of the two samples being drawn from the Bernoulli distribution, our model is that we are sampling from $Pois(\lambda_1)$ and $Pois(\lambda_2)$. We want to test whether $\lambda_1 = \lambda_2$.
+    
+    
+3. A group of college students interested in the
+effect of stepping exercises on the heart conducted an experiment in which subjects
+were randomly assigned to a stepping exercise on either a low step (coded "low") or a high step (coded "high"). Each subject started with a resting heart rate and performed the exercise for 3 minutes, at which time his or her exercise heart rate was measured.
+The data are in the file `exercise.csv`. 
+
+
+a. The students first want to see if the random assignment of subjects
+to the groups did a satisfactory job of equalizing the mean resting heart rates (`Resting_HR`) between the groups. This can be answered by performing a two sample t test. Follow the steps given below.
+
+    i. Read in the data `exercise.csv` into a dataframe called `exercise_df` and then print summaries (n, mean, sd) of the variable `Resting_HR` by `Step`. I am looking for output that looks like this table. 
+
+    \begin{tabular}{cccc}
+    Step & n & sample\_mean & sample\_sd \\ 
+    high & 15 & 82.8 & 8.32 \\
+    low & 15 & 77.2 & 9.45
+    \end{tabular}
+
+    ii. Let's assume the conditions outlined in Theorem 10.1 hold. Namely that
+$$X_1,X_2,\dots X_{15} \overset{i.i.d.}{\sim} Norm(\mu_1, \sigma_0)$$
+independent of
+$$Y_1,Y_2,\dots,Y_{15} \overset{i.i.d.}{\sim} Norm(\mu_2, \sigma_0)$$
+where $X$ and $Y$ denote the resting heart rates for the low and high step groups. Use R as a calculator and the summaries above to calculate a 95\% t-confidence interval for $\mu_1 - \mu_2$ - the difference in mean resting heart rate between the groups. 
+
+    iii. Verify your calculation from part ii using the R function `t_test` from the \textbf{infer} package.
+
+    iv. What do you conclude from your confidence interval? Is 0 in the interval? What does this tell you about whether the randomization did a satisfactory job of equalizing the mean resting heart rate between the two groups?
+
+**If there is time**
+
+b. Next, they want to test whether the higher step resulted in a \emph{larger} gain in heart rate than did the lower step. This can be answered by a two sample t test comparing the gains in heart rate between the two groups. Follow the steps given below.
+
+    i. Mutate and add a new column called `di` to the `exercise` dataframe which measures the change in heart rate (`Exercise_HR` - `Resting_HR`). Then print  summaries (n, mean, sd) of the variable `di` by `Step`. 
+
+
+    ii. Now repeat ii-iv from part a. for the `di`.
+
