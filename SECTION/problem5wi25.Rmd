@@ -1,0 +1,78 @@
+---
+title: "Problem Section 5"
+subtitle:  "The Likelihood Function"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(infer)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+   - Construct a likelihood function given the PMF or PDF
+   
+   - Find the maximum likelihood estimator using methods appropriate for a given likelihood function
+   
+   - Compare and contrast two different estimators in a statistical model
+   
+   - Formulate the likelihood function in a new (but) still familiar scenario.
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+### Exercises 
+
+1. Suppose $X_1, X_2, \dots, X_n$ are independent random variables with PMF parametrized by $\theta$ as shown below:
+\begin{align*}
+f_{\theta}(x) &= P_{\theta}(X=x) =  \left\{ \begin{array}{ll}
+             \frac{1}{3} - \theta & x = 0  \\
+             \frac{1}{3} & x =1 \\
+             \frac{1}{3} + \theta & x =2 \end{array} \right.
+\end{align*}
+where you can assume $-\frac{1}{3} \leq \theta \leq \frac{1}{3}$ so all probabilities are non-zero.
+
+a. Based on the sample $x_1=0$, $x_2=0$, $x_3=1$, $x_4=0$, $x_5=1$, $x_6=2$, $x_7=1$, $x_8=0$, $x_9 =0$, write an expression for the likelihood function $L(\theta)$. 
+
+b. Calculate $\widehat{\theta}_0^{mle}$, the MLE of $\theta_0$, the true but unknown value of the parameter from which our sample is drawn.
+
+
+2. A positive continuous random variable X has PDF 
+$$f_{\theta}(x) =  \frac{\theta}{(1+x)^{\theta+1}} \ \ x \geq 0$$
+where $\theta$ is \textbf{known to be 2,3 or 4}.
+Given two independent observations of $X$ with values $x_1=0.2$ and $x_2=0.8$,
+
+a. Derive the likelihood function $L(\theta)$.
+
+b. Determine $\widehat{\theta}_0^{mle}$, the MLE of $\theta$.
+
+<!--- 3. A company has manufactured certain objects and has printed a serial number on each manufactured object. The serial numbers start at 1 and end at $N$, where $N$ is the (unknown) number of objects that have been manufactured. One of these objects is selected at random, and the serial number of that object is $x_{obs} = 888$.
+
+    Let the random variable $X$ denote the number which is randomly chosen. Then
+    $$f(x)  = \frac{1}{N},  \ \ \ x=1,2,\dots,N$$
+
+a. Derive the method of moments estimate of $N$? (Hint: Find $E\left[X\right]$, set equal to $x_{obs}$ and solve)
+
+b. Derive the likelihood function of $N$. (Hint: this uses similar ideas as in example 10.3 in the slidedeck labeled Chapter 10)
+
+c. Derive the maximum likelihood estimate of $N$? 
+--->
+
+3. Suppose 100 seeds are planted and the random variable $X$ denotes number that germinate.  It is known only that we observed $x_{obs} \leq 15$. That is, the exact number of germinating seeds is not known, just that it is 15 or less. Let $\pi$ denote the probability that a randomly selected seed will germinate. 
+
+    How would you define the likelihood function $L(\pi)$ in this situation? You may assume that seeds germinate independently of each other.
