@@ -1,0 +1,113 @@
+---
+title: "Homework 4"
+author: "Your Name Here"
+subtitle: "Winter 2025"
+header-includes:
+    - \usepackage{amsmath}
+    - \usepackage{amsthm}
+    - \usepackage{setspace} 
+output: pdf_document
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message= FALSE, 
+                      warning = FALSE)
+options(pillar.sigfig=6)
+library(tidyverse)
+library(janitor)
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday February 12 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope.  
+
+* * *
+
+### Exercises
+
+1. (Racial discrimination in the Labor Market) Does racial discrimination exist in the labor market? Or, should racial disparities in the
+unemployment rate be attributed to other factors such as racial gaps in educational attainment?
+To answer this question, two social scientists conducted the following experiment. In response to newspaper ads, the researchers sent out resumes of fictitious job candidates
+to potential employers. They varied only the names of the job applicants while leaving
+the other information in the resumes unchanged. For some resumes, stereotypically blacksounding
+names such as Lakisha Washington or Jamal Jones were used, whereas other
+resumes contained typically white-sounding names such as Emily Walsh or Greg Baker.
+The researchers then compared the callback rates between these two groups of resumes and
+examined whether the resumes with typical black names received fewer callbacks than those with stereotypically white names. The positions to which the applications were sent were either in sales, administrative support, clerical, or customer services.
+
+    The data are in the file `resume.csv`. Each row represents a fictitious job applicant. For example, the second observation contains a resume of Kristin who is a white female who did not receive a callback.
+
+a. Create a table (`tabyl`) summarizing the race of the applicant and whether or not they received a callback. See the file `hw4table.png` for an example of what your table should look like. Show the code, output and also write a couple of sentences summarizing what you learn from the data. 
+   
+b. Is there evidence of discrimination? Calculate a 95% confidence interval for the difference in callback rates for black and white applicants. Just give the formula for the interval, calculate it using R as a calculator and then write your conclusion in context. (Be sure to show your code)
+  
+  
+  
+2. Suppose $$X_1,X_2,\dots,X_n \overset{i.i.d.}{\sim} Norm(\mu_1, \sigma_0)$$ independently of $$Y_1,Y_2,\dots,Y_m \overset {i.i.d.}{\sim} Norm(\mu_2, \sigma_0).$$
+
+    Consider the pooled estimator of $\sigma^2_0$:
+    $$S^2_p = \frac{(n-1)}{n+m-2} S^2_1 + \frac{m-1}{n+m-2} S^2_2$$
+    
+    where $S^2_1$ and $S^2_2$ are the usual sample variance based on the $X$'s and $Y$'s respectively.
+    
+    
+a. Argue that $\frac{(n-m+2)\:S^2_p}{\sigma_0^2} \sim \chi^2_{n+m-2}$.  
+
+    
+b. Argue that 
+   $$T = \frac{\bar{X} - \bar{Y} - (\mu_1 - \mu_2)}{S_p \sqrt{\frac{1}{n} + \frac{1}{m}}} \sim t_{n+m-2}$$ 
+
+  
+  
+3. The STAR (Student-Teacher Achievement Ratio) Project is a four year longitudinal study examining the effect of class size in early grade levels on educational performance and
+personal development.5 A longitudinal study is one in which the same participants are followed over time. This particular study lasted from 1985 to 1989 involved 11,601 students. During the four years of the study, students were randomly assigned to small classes, regular-sized
+classes, or regular-sized classes with an aid. In all, the experiment cost around $12 million. Even though the program stopped in 1989 after the first kindergarten class in the program finished third grade, collection of various measurements (e.g., performance on tests
+in eighth grade, overall high school GPA) continued through the end of participants’ high school attendance.
+
+    We will analyze just a portion of this data to investigate whether test scores are associated with race or not. The data file name is `star.csv`. The names and descriptions of variables in this data set are displayed in the codebook shown below. 
+    
+    |Variable  | Description
+    |:---:     | :--------:      
+    |race      | student’s race
+    |classtype | type of kindergarten class (small, regular)
+    |g4math    | total scaled score for math portion of fourth grade standardized     test
+    |g4reading | total scaled score for reading portion of fourth grade standardized test 
+    |yearssmall| number of years in small classes
+    |hsgrad    | high school graduation (did graduate = 1, did not graduate= 0) 
+ 
+
+    Write a brief report of to examine the impact of race on grade 4 math scores. You will conduct two separate analyses: one for regular classrooms and the other for small classrooms. In each case, you should include some  visualizations, summaries 
+and then inferential conclusions using the two sample t. Be sure to state and verify any assumptions you make. Finally end the report with some high-level conclusions. 
+
+    Note: this is a fairly open ended exercise. It will be graded subjectively based on how interesting and organized your analysis and report is. Please also set chunk output options and use labels to show the output from code in the main body of the report, but display code in the Appendix in a neat and organized manner under headings. I have demonstrated this below with code to read in the datafile.
+
+
+    ```{r label = "report", eval = TRUE, echo = FALSE}  
+     
+    star <- read_csv(file = "star.csv")
+
+     star %>% glimpse()
+    
+    ```
+    
+    
+    
+## Appendix
+
+### Code to read in data file and peek at the data 
+
+```{r ref.label = "report", eval = FALSE}
+
+
+```
