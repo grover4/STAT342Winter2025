@@ -1,0 +1,97 @@
+---
+title: "Problem Section 6"
+subtitle:  "Numerical Methods"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(maxLik)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+  
+   - Use `maxLik` to perform Newton Raphson on a trinomial likelihood.
+   
+   - Derive the MLE of the odds of success in a binomial experiment. 
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+### Exercises 
+
+1. In 1958, Fisher examined data from a genetic study of two genes in the offspring of 3,839 self-pollinated heterozygous plants. The results of scoring the offspring plants as either starchy or sugary and as having either a green or a white base leaf appear below. 
+
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{ccccc} \\ \hline
+    1) starchy-green & 2) starchy-white & 3) sugary-green & 4) sugary-white & total \\ \hline
+    1997 & 906 & 904 & 32 & 3,839 \\ \hline
+    \end{tabular}
+    \end{table}
+
+    According to a genetic model for these traits, the probability that a plant exhibits one of these trait combinations should be $\frac{1}{4} (2 + \theta)$ for the first combination, $\frac{1}{4}(1-\theta)$ for the middle two combinations and $\frac{1}{4} \theta$ for the last where $\theta \quad (0 \leq \theta \leq 1)$ is a parameter related to linkage closeness. 
+
+
+a. Write the likelihood function for the parameter $\theta$ based on the observed frequencies.
+
+
+b. Find  $\widehat{\theta}_0^{mle}$, the maximum likelihood estimator of $\theta_0$, the true value of $\theta$.
+
+
+
+2. (Invariance of MLE) Suppose $X \sim Binom(n,\pi)$ where $0 \leq \pi \leq 1$. We saw in class that the likelihood function for $\pi$ is
+$$L(\pi) = \binom{n}{x} \pi^{x} \times (1-\pi)^{n-x}$$
+where $x = \sum\limits_{i=1}^{n} x_i$ is the number of successes in $n$ trials.
+
+a. Suppose we are interested in the parameterization
+$$\tau = \frac{ \pi}{1-\pi}$$
+which represents the odds of a success. Write $\pi$ in terms of $\tau$. That is, write $\pi$ in the form
+$$\pi = g(\tau)$$
+where $g$ is some function.
+
+b. Let $L^{\ast}(\tau)$ denote the likelihood function expressed in terms of the re-parametrization $\tau$. 
+In other words $L^{\ast}$ is the same as $L$ with the only difference that the $\pi$ needs to be replaced by $g(\tau)$. More precisely: 
+$$L^{\ast}(\tau) = L(g(\tau) ).$$
+Write the expression for $L^{\ast}(\tau)$. 
+
+c. Find $\hat{\tau}_0^{mle}$ the MLE of $\tau_0$ - the true but unknown value of $\tau_0$ - by maximizing $\ln(L^{\ast}(\tau))$ with respect to $\tau$. Show that 
+\begin{align*}
+\hat{\tau}_0^{mle} &= \frac{x}{n-x} = \frac{\hat{\pi_0}^{mle}}{1 - \hat{\pi_0}^{mle}}.
+\end{align*}
+
+    Hint: consider the cases $x=0$ and $x=n$ like we did in class for finding the MLE of $\pi$. Then differentiate $\ln(L^{\ast})$ with respect to $\tau$ for $x$ in between these values to find the MLE. Put everything together.
+
+d. In your own words, explain what you learn about the behavior of the MLE from this example.
+
+
+
+3. Let's return to the data from exercise 1. 
+
+a. Write a function called `loglik_multinom` to calculate the log likelihood function $L(\theta)$ for the data in problem 1. You can use the `dmultinom` for calculating the multinomial PMF or type out the PMF yourself.
+
+b. In exercise 1, you actually calculated the MLE without numerical methods. In this part you will use `maxLik`to find the $\hat{\theta}_0^{mle}$ numerically. Set the tolerance equal to 1E-6. Also try different starting values to examine sensitivity the choice.
+
+c. (Open ended) Use the parametric bootstrap method to estimate the standard error of $\hat{\theta}_0^{mle}$. Follow these steps. 
+
+     - Set the random number seed to 394. 
+     - Using `rmultinom`, generate a large number (B = 1500) of data sets from the model 
+  $$X_1, X_2, X_3, X_4 \sim Multinom\left(n, \pi_1 = \frac{1}{4}(2+ \widehat{\theta}), \pi_2 = \frac{1}{4} (1 - \widehat{\theta}), \pi_3 = \frac{1}{4}(1-\widehat{\theta}), \pi_4 = \frac{1}{4} \widehat{\theta} \right)$$ 
+       where $\hat{\theta}$ is your MLE from exercise 1.
+      - From each of these data sets, find the MLE of $\theta$ and then calculate the standard deviation of these values.
+      
+  

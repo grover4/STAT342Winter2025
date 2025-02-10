@@ -1,0 +1,77 @@
+---
+title: "Homework 5"
+author: "Your Name Here"
+subtitle: "Winter 2025"
+header-includes:
+    - \usepackage{amsmath}
+    - \usepackage{amsthm}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+
+knitr::opts_chunk$set(echo = TRUE, message= FALSE, warning = FALSE)
+options(pillar.sigfig=6)
+library(tidyverse)
+
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday Feb 19 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope.  
+
+* * *
+
+### Exercises
+
+1. (MOM vs.MLE) Suppose $X_1,X_2,\dots, X_n$ are independently drawn from the PDF
+$$f_{\theta}(x) = (\theta +1)x^{\theta} \ \ \ 0 \leq x \leq 1$$
+where the (unknown) parameter $\theta \geq -1$ so the PDF is non-zero and integrates to 1. Say we observe $x_1,x_2,\dots,x_n$.
+
+a. Derive $\widehat{\theta}_0^{mom}$, the method of moments estimate for $\theta_0$, the true value of the parameter.
+
+b. Derive $\widehat{\theta}_0^{mle}$, the maximum likelihood estimate of $\theta_0$. Be sure to show
+   - likelihood function
+   - log-likelihood function
+   - first derivative condition
+   - second derivative test
+   
+c. Use R as a calculator to find $\widehat{\theta}_0^{mom}$ for the sample below. Please be sure to show your code and output.
+
+    ```{r echo =T}
+    x <- c(0.90, 0.78, 0.93, 0.64, 0.45, 0.85, 0.75, 0.93, 0.98, 0.78)
+
+    ```
+
+d. Make a plot of the log-likelihood function for the data from part c.and then use R as a calculator to find $\widehat{\theta}_0^{mle}$. Please be sure to show your code and output.
+
+
+2. (Light bulbs) A set of	cheap light	bulbs have a lifetime (in hours) which is	exponentially distributed with unknown rate	$\lambda > 0$:
+$$f_{\lambda}(x) = \lambda exp(-\lambda\:x), \ \  x  \geq 0$$
+
+   Choosing	a random	sample of ten light	bulbs, they are turned on simultaneously and observed for 48 hours. During this period, six bulbs went out, at times $x_1,x_2,\dots,x_6$. At the end of the experiment, four light bulbs were still working. In other words, all we know about them is that their lifetime exceeded 48 hours.
+ 
+
+a.  Formulate the likelihood function $L(\lambda)$.   
+
+    Hint: please refer to problem 3 from groupwork 5 for dealing with the four light bulbs.
+
+b. Derive an expression for the MLE of $\lambda_0$, the true value of the rate parameter. Also verify it is the global maximum of the likelihood function. Be sure to show steps.
+  
+3. (Simple linear regression) Suppose $X_1,X_2,\dots,X_n \overset{ind}{\sim} Norm(a_i \mu, 1)$ where the $a_i$ are \textbf{known constants} and $\mu$ is an unknown parameter. (FYI: This is an example of a linear regression model since the mean of $X$ is assumed to be a linear function of the $a_i$ )
+
+a. Write the likelihood function $L(\mu)$ and also the log-likelihood function $\ell(\mu)$ when we observe $x_1,x_2,\dots,x_n$.
+
+b. Derive an expression for $\widehat{\mu}_0^{mle}$, the MLE for $\mu_0$ the true value of the parameter.  (Please show your steps clearly. No need for the the second derivative test)
+
+c. Is $\widehat{\mu}_0^{mle}$ an unbiased estimator of $\mu_0$? Show your work.
+
+d. Derive the standard error of $\widehat{\mu}_0^{mle}$. Show your work. 
+
