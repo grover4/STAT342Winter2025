@@ -1,0 +1,125 @@
+---
+title: "Homework 6"
+author: "Your Name Here"
+subtitle: "Winter 2025"
+header-includes:
+    - \usepackage{amsmath}
+    - \usepackage{amsthm}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+
+library(tidyverse)
+library(maxLik)
+library(fastR2)
+library(openintro)
+```
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday February 26 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope.  
+
+* * *
+
+### Exercises
+
+1. (Waiting time) Suppose $X \sim Geom(\pi)$, that is, it represents the number of failures preceding the first success in independent trials with constant probability $\pi$ of success on each trial. The PMF of $X$ is 
+$$f_{\pi}(x) = (1- \pi)^{x} \: \pi \ \ x = 0,1,2,\dots$$
+where $0 \leq \pi \leq 1$ is the probability of a success. 
+
+a. Suppose we observe $x$. Find the MLE $\widehat{\pi}_0$, where $\pi_0$ is the true but unknown value of $\pi$ which generated our data.  Show your steps beginning with the likelihood function $L(\pi)$. 
+
+    Hint: you will need to consider the case $x=0$ separately.
+    
+b. In order to find the MLE $\widehat{\pi}_0$, we need to solve the equation $$s(\pi) = \frac{d}{d\pi} \ln\left[ L(\pi) \right] = 0.$$ The above equation is fairly easy to solve directly. However, say we decide to use the Newton Raphson method to find the root of the equation. Calculate $\pi_{new}$ assuming we observe $x=10$  and begin the algorithm at $\pi_{old} = 0.5$. That is, perform one update of the Newton Raphson method.
+
+
+    
+2. (Twins) Suppose that in a population of twins consisting only of the two most common biological sexes\footnote{see \href{https://www.joshuakennon.com/the-six-common-biological-sexes-in-humans/}{here} for the six variations that are possible}, males (those with XY chromosomes) and females (those with XX chromosomes) are equally likely and that the probability that the twins are identical is $\alpha$. 
+
+    If the twins are not identical, their biological sexes are independently determined. If they are identical, their biological sex is obviously the same.
+	
+    Denote
+    \begin{align*}
+    	\pi_1 &= P(MM),\\
+	    \pi_2 &= P(FF), \\
+	    \pi_3 &= P(MF).
+	  \end{align*}
+	 
+	  where $\mbox{MM}$ represents the event that both twins are male, $\mbox{FF}$ the event that both are female and $\mbox{MF}$ is the event that one of the twins is female and the other is male.
+	
+a. Write $\pi_1, \pi_2,\pi_3$ as functions of $\alpha$. For full credit, you will need to demonstrate your understanding of conditional probability when the sample space is partitioned, and show your work methodically. 
+	  
+	  Hint: Use the tree diagram below to structure your thinking on the presentation of your answer. The first branch shows the (unconditional) probabilities of the partitions: $I = \mbox{twins are identical}$ and $I^c = \mbox{twins are fraternal}$. The second branch shows the (conditional) probabilities of the twins being MM, MF or FM. 
+	
+	  ```{r prob-tree, echo = F, eval = T, out.width = "50%", fig.align = "center"}
+	 
+	   treeDiag(main = c("Identical?", "Sex of Twins"),
+         p1 = c("alpha", "1-alpha"),
+         p2 = list(c("?", "?", "?"), c("?", "?","?")),
+         out1 = c("Yes", "No"),
+         out2 = c("MM", "MF", "FF"),
+         showSol = FALSE,
+         showWork = FALSE,
+         solwd = 0.5,
+         digits = 6)
+	 
+	  ```
+	
+b. Let $X$ and $Y$ denote the number (out of $n$ twins) of types $\mbox{MM}$ and $\mbox{FF}$ respectively. Then the trinomial distribution is a reasonable choice for the joint distribution. Specifically we may assume:
+$$f(x,y) = \frac{n!}{x!y!(n-x-y)!} \pi_1^{x} \pi_2^{y} (1-\pi_1-\pi_2)^{n-x-y}$$
+provided $0 \leq (x+y) \leq n$ and 
+where $\pi_1$, $\pi_2$ and $\pi_3$ are functions of $\alpha$ as described earlier.
+
+    Suppose we observe the following data: 
+    \begin{table}[h]
+  	\centering
+    \begin{tabular}{ccc}
+      MM & FF & MF \\ \hline
+      10 & 15 & 15\\ \hline
+     \end{tabular}
+    \end{table}
+    
+    Give the expression for $\widehat{\alpha}_0^{mle}$, the MLE of $\alpha_0$, the true value of the parameter from which this data is generated. 
+     
+     (There is no need to verify the second order condition.)
+     
+c. Write code to find $\hat{\alpha}_0^{mle}$ numerically using the Newton Raphson method in  the `maxLik` function from the package **maxLik**. 
+
+
+3. (Two statisticians) A scientist has obtained two random samples: $X_1,X_2,\dots,X_{n} \overset{i.i.d.}{\sim} Exp(\theta)$, independently of $Y_1,Y_2,\dots,Y_{m} \overset{i.i.d.}{\sim} Exp(k\:\theta)$, where $\theta \geq 0$ is the (unknown) mean of the distribution and $k$ is some known positive number. That is, the PDF of $X$ is
+$$f_{\theta}{(x)} = \frac{1}{\theta} e^{-\frac{x}{\theta}}, \ \ 0 \leq x < \infty$$
+and the PDF of $Y$ is
+$$f_{\theta}(y) = \frac{1}{k\theta} e^{-\frac{x}{k\theta} } \ \ 0 \leq y < \infty$$
+
+
+a. Say we observe $x_1,x_2,\dots,x_n$ in the first sample. Find $\hat{\theta}_1^{mle}$,  the MLE of $\theta$, the true value of the parameter based on this sample. What is $Var\left(\hat{\theta}_1^{mle} \right)$? 
+
+    (You may assume that $\bar{x} > 0$. Also there is no need to verify the second order condition)
+  
+
+b. Suppose we observe $y_1,y_2,\dots,y_n$ in the second sample. Find $\hat{\theta}_2^{mle}$,  the MLE of $\theta$, the true value of the parameter based on this sample. What is $Var\left(\hat{\theta}_2^{mle} \right)$? 
+
+    (You may assume that $\bar{y} > 0$. Also there is no need to verify the second order condition)
+
+c. Now she wants a single estimate of $\theta$, so she asks two statisticians for advice. 
+
+    i. One suggests finding the estimator which is a weighted average of the two estimators, namely:
+$$T_1 = a \widehat{\theta}_1 + (1-a) \widehat{\theta}_2$$
+where the constant $a \; (0 \leq a \leq 1)$ is chosen to minimize $Var(T_1)$. Find $a$ and give an expression for the resulting estimator $T_1$.
+
+        Hint: see problem 4 on the Final Study Guide from STAT 341.
+
+    ii. The other suggests $T_2$, the MLE of $\theta$ based on the combined sample. Find this estimator and show that it is the same as $T_1$.
+    
+        Hint: the likelihood function based on both samples is just the product of the PDFs. No need to verify the second derivative test
+
+    

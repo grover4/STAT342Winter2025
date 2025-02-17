@@ -1,0 +1,116 @@
+---
+title: "Problem Section 7"
+subtitle:  "Likelihood Inference"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(fastR2)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+  
+   - Perform inference using the large sample distribution of the MLE
+   
+   - Calculate the likelihood ratio test statistic for significance testing 
+   
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+## Exercises 
+
+
+1. A field biologist wants to estimate the density of a species of plant in a certain region. She uses a Poisson model that says that the number of plants, observed in a region of area A has a $Pois(\lambda A)$ where the parameter $\lambda \:(\geq 0)$ is the plant density per unit area.
+
+    One sampling method is to randomly select $n$ positions in the region and then measure the distance, $X$ from that position to the nearest plant of the species of interest. It can be shown\footnote{see the Appendix} that the random variable $X$ has the PDF
+    $$f_{\lambda_0}(x) = 2 \pi  \lambda_0\: x \cdot e^ {-\pi \:\lambda_0\:x^2} \qquad 0 \leq x < \infty$$
+    
+    where $\pi$ is the mathematical constant, not a probability. In other words,\footnote{Type "?weibull"  in the Console to see the general form of the PDF} $X$ is said to follow a $Weibull(a, \sigma)$ distribution with shape parameter $a = 2$ and scale parameter $\sigma = \frac{1}{\sqrt{\pi \lambda_0}}$. 
+    
+a. Write the likelihood function $L(\lambda)$ based on observing the values $x_1, x_2, \dots, x_n$. You may assume the locations are far apart enough, so that the measurements are independent of each other.
+
+b. Show that $\widehat{\lambda}_0^{mle}$, the MLE of $\lambda_0$ is given by
+    $$\widehat{\lambda}_0^{mle} = \frac{n}{\pi \sum\limits_{i=1}^{n} x^2_i}$$
+
+    \emph{Note: the numerator of the MLE is the number of plants observed while the denominator is the total area inspected to find them. So this estimator is the average plant density. Nice!}
+    
+c. What does Theorem 12.1 say about the large sample distribution of $\widehat{\lambda}_0^{mle}$?
+
+d. Suppose the biologists observes the following set of $n = 15$ observations. Fit the Weibull distribution to these data. This means use it to calculate $\widehat{\lambda}_0^{mle}$. Also find a 95% large sample confidence interval for $\lambda_0$, the true plant density per unit area. 
+
+    ```{r}
+    x <- c(0.30194770, 0.74251724, 0.14009690, 0.07018943, 0.19476097,
+           0.28164094, 0.23702201, 0.19342730, 0.25679502, 0.34266750, 
+           0.62550593, 0.25828593, 0.34181016, 0.25620334, 0.22318763)
+    
+     
+    ```
+
+
+e. Examine whether an $n=15$ is large enough to use the large sample approximation from part d. Write code to calculate the log-likelihood function and then use `maxLik2` to make comparisons with the second-order Taylor series approximation around the MLE.
+
+f. Determine the form of $W$, the likelihood ratio test statistic for testing $H_0: \lambda_0 = 2.5$ versus $H_1: \lambda_0 \neq 2.5$. Then calculate it for these data and estimate the P-value using the chi-squared distribution. 
+
+g.  An alternative to using the chi-squared distribution to finding the P-value is to calculate an empirical P-value by generating a large number $B$ of samples from the null hypothesis. Follow the steps below to calculate an empirical p-value for this problem. 
+
+   - Step 0: Set the random number seed to 414.
+   
+   - Step 1: use `rweibull` to generate $x^{\ast}_1, x^{\ast}_2, \dots, x^{\ast}_{15}$ from a Weibull distribution with shape = 2 and scale = $\frac{1}{\sqrt{\pi\:\lambda_0^{null}}}$.        
+   
+   - Step 2: For the generated sample, calculate the value of $W^{\ast}$, the likelihood ratio test statistic for that sample. 
+   
+   - Step 3: Repeat steps 1 and 2 a large number $B = 1500$ times.
+   
+   - Step 4: Count the fraction of times that $W^{\ast}$ exceeds our observed value. Report the empirical p-value and also make a histogram of the values of $W^{\ast}$. 
+
+
+## Appendix: Proof of PDF of $X$
+
+In this appendix, I wil derive the PDF of $X$ using the CDF method. For each $x \geq 0$,
+the CDF of $X$ is given by
+\begin{align*}
+P(X \leq x) &= 1 - P(X > x ), \\
+&= 1 - P(\mbox{no plants of the species within radius of x}), \\
+& = 1 - dpois(x = 0, \lambda = \lambda_0\:\pi\:x^2), \\
+&= 1 - \frac{ e^{-\lambda_0\:\pi\:x^2} (\lambda_0\:\pi\:x^2)^{0}}{0!}, \\
+&= 1 - e^{-\lambda_0\:\pi\:x^2}
+\end{align*}
+
+Differentiating the CDF gives the PDF.
+
+<!---
+2. Suppose $X$ is a discrete random variable with PMF $f(x)$ indexed by a parameter $\theta$as shown below. 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccc} 
+& $x=1$ & $x=2$ & $x=3$ & $x=4$ \\ \hline
+$\theta_0$ & 1/3 & 1/6 & 1/12 & 5/12 \\
+$\theta_1$ & 1/2 & 1/4 & 1/6 & 1/12 \\ \hline \\ 
+$W$ &  &   &  &  \\ \hline
+\end{tabular}
+\end{table}
+
+a. Say we want to test $H_0:\theta=\theta_0^{null}$ versus $H_1:\theta \neq \theta_0^{null}$. Calculate the likelihood ratio statistic 
+$$W= 2 \ln \left[ \frac{L(\widehat{\theta}_0^{mle})}{L(\theta_0^{null})} \right]$$ 
+for for each value of $x$ and write it in the last row of the table. (Hint: The parameter $\theta$ can only take two values, so you can find the MLE fairly easily)
+
+b. Write the sampling distribution of $W$ assuming $H_0$ is true. (Hint: $W$ is a discrete random variable) 
+
+c. Suppose we observe $x=3$. Calculate the P-value. What should we conclude at a 0.05 level of significance?
+
+--->
