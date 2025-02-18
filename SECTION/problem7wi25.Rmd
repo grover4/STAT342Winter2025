@@ -11,7 +11,7 @@ header-includes:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(fastR2)
+
 ```
 
 \begin{shaded}
@@ -35,7 +35,7 @@ The problems are designed to build conceptual understanding and problem-solving 
 ## Exercises 
 
 
-1. A field biologist wants to estimate the density of a species of plant in a certain region. She uses a Poisson model that says that the number of plants, observed in a region of area A has a $Pois(\lambda A)$ where the parameter $\lambda \:(\geq 0)$ is the plant density per unit area.
+1. A field biologist wants to estimate the density of a species of plant in a certain region. She uses a Poisson model that says that the number of plants, observed in a region of area A has a $Pois(\lambda_0 A)$ where the parameter $\lambda_0 \:(\geq 0)$ is the plant density per unit area.
 
     One sampling method is to randomly select $n$ positions in the region and then measure the distance, $X$ from that position to the nearest plant of the species of interest. It can be shown\footnote{see the Appendix} that the random variable $X$ has the PDF
     $$f_{\lambda_0}(x) = 2 \pi  \lambda_0\: x \cdot e^ {-\pi \:\lambda_0\:x^2} \qquad 0 \leq x < \infty$$
@@ -62,11 +62,11 @@ d. Suppose the biologists observes the following set of $n = 15$ observations. F
     ```
 
 
-e. Examine whether an $n=15$ is large enough to use the large sample approximation from part d. Write code to calculate the log-likelihood function and then use `maxLik2` to make comparisons with the second-order Taylor series approximation around the MLE.
+e. Examine whether an $n=15$ is large enough to use the large sample approximation from part d. Write code to calculate the log-likelihood function and then use `maxLik2` to make comparisons with the second-order Taylor series approximation around the MLE. (Don't forget to load `fastR2` in the setup code chunk)
 
 f. Determine the form of $W$, the likelihood ratio test statistic for testing $H_0: \lambda_0 = 2.5$ versus $H_1: \lambda_0 \neq 2.5$. Then calculate it for these data and estimate the P-value using the chi-squared distribution. 
 
-g.  An alternative to using the chi-squared distribution to finding the P-value is to calculate an empirical P-value by generating a large number $B$ of samples from the null hypothesis. Follow the steps below to calculate an empirical p-value for this problem. 
+g.  An alternative to using the chi-squared distribution to finding the P-value is to calculate an \textbf{empirical P-value} by generating a large number $B$ of samples from the null hypothesis. Follow the steps below to calculate an empirical p-value for this problem. 
 
    - Step 0: Set the random number seed to 414.
    
@@ -93,3 +93,24 @@ P(X \leq x) &= 1 - P(X > x ), \\
 
 Differentiating the CDF gives the PDF.
 
+<!---
+2. Suppose $X$ is a discrete random variable with PMF $f(x)$ indexed by a parameter $\theta$as shown below. 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccc} 
+& $x=1$ & $x=2$ & $x=3$ & $x=4$ \\ \hline
+$\theta_0$ & 1/3 & 1/6 & 1/12 & 5/12 \\
+$\theta_1$ & 1/2 & 1/4 & 1/6 & 1/12 \\ \hline \\ 
+$W$ &  &   &  &  \\ \hline
+\end{tabular}
+\end{table}
+
+a. Say we want to test $H_0:\theta=\theta_0^{null}$ versus $H_1:\theta \neq \theta_0^{null}$. Calculate the likelihood ratio statistic 
+$$W= 2 \ln \left[ \frac{L(\widehat{\theta}_0^{mle})}{L(\theta_0^{null})} \right]$$ 
+for for each value of $x$ and write it in the last row of the table. (Hint: The parameter $\theta$ can only take two values, so you can find the MLE fairly easily)
+
+b. Write the sampling distribution of $W$ assuming $H_0$ is true. (Hint: $W$ is a discrete random variable) 
+
+c. Suppose we observe $x=3$. Calculate the P-value. What should we conclude at a 0.05 level of significance?
+
+--->
