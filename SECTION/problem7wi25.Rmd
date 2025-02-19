@@ -93,24 +93,3 @@ P(X \leq x) &= 1 - P(X > x ), \\
 
 Differentiating the CDF gives the PDF.
 
-<!---
-2. Suppose $X$ is a discrete random variable with PMF $f(x)$ indexed by a parameter $\theta$as shown below. 
-\begin{table}[h]
-\centering
-\begin{tabular}{ccccc} 
-& $x=1$ & $x=2$ & $x=3$ & $x=4$ \\ \hline
-$\theta_0$ & 1/3 & 1/6 & 1/12 & 5/12 \\
-$\theta_1$ & 1/2 & 1/4 & 1/6 & 1/12 \\ \hline \\ 
-$W$ &  &   &  &  \\ \hline
-\end{tabular}
-\end{table}
-
-a. Say we want to test $H_0:\theta=\theta_0^{null}$ versus $H_1:\theta \neq \theta_0^{null}$. Calculate the likelihood ratio statistic 
-$$W= 2 \ln \left[ \frac{L(\widehat{\theta}_0^{mle})}{L(\theta_0^{null})} \right]$$ 
-for for each value of $x$ and write it in the last row of the table. (Hint: The parameter $\theta$ can only take two values, so you can find the MLE fairly easily)
-
-b. Write the sampling distribution of $W$ assuming $H_0$ is true. (Hint: $W$ is a discrete random variable) 
-
-c. Suppose we observe $x=3$. Calculate the P-value. What should we conclude at a 0.05 level of significance?
-
---->
